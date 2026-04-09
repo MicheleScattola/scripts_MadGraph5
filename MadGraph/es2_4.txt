@@ -1,0 +1,48 @@
+# 2.4
+
+import model heft
+generate e+ e- > t t~ g
+output es_2_4
+
+launch -n m140
+set lpp1 0
+set lpp2 0
+set mt 140.0
+set wt Auto
+0
+
+launch -n m150
+set lpp1 0
+set lpp2 0
+set mt 150.0
+set wt Auto
+0
+
+launch -n m160
+set lpp1 0
+set lpp2 0
+set mt 160.0
+set wt Auto
+0
+
+launch -n m170
+set lpp1 0
+set lpp2 0
+set mt 170.0
+set wt Auto
+0
+
+launch -n m180
+set lpp1 0
+set lpp2 0
+set mt 180.0
+set wt Auto
+0
+
+launch -n m190
+set lpp1 0
+set lpp2 0
+set mt 190.0
+set wt Auto
+0
+

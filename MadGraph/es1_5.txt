@@ -1,0 +1,31 @@
+# 1.5
+import model heft
+
+generate g g > h , h > a a  
+output es_1_5/sig
+launch -n signal
+set run_tag gammagamma_signal
+set pta 20.0
+0
+
+generate p p > a a 
+output es_1_5/bkg
+launch -n background
+set run_tag gammagamma_bkg
+set pta 20.0
+0
+
+launch -n window10
+set mmaa 115
+set mmaamax 135
+0
+
+launch -n window5
+set mmaa 120
+set mmaamax 130
+0
+
+launch -n window1
+set mmaa 124
+set mmaamax 126
+0

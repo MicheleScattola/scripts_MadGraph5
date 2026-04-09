@@ -1,0 +1,65 @@
+# 1.6
+
+generate e+ e- > w+ w-
+output es_1_6/inclusive
+
+launch -n inc_200
+set lpp1 0
+set lpp2 0
+set ebeam1 100
+set ebeam2 100
+0
+
+launch -n inc_500
+set lpp1 0
+set lpp2 0
+set ebeam1 250
+set ebeam2 250
+0
+
+launch -n inc_700
+set lpp1 0
+set lpp2 0
+set ebeam1 350
+set ebeam2 350
+0
+
+launch -n inc_1000
+set lpp1 0
+set lpp2 0
+set ebeam1 500
+set ebeam2 500
+0
+
+# now test with exclusion of gamma and Z interference
+generate e+ e- > w+ w- / a z 
+output es_1_6/excluded
+
+launch -n exc_200
+set lpp1 0
+set lpp2 0
+set ebeam1 100
+set ebeam2 100
+0
+
+launch -n exc_500
+set lpp1 0
+set lpp2 0
+set ebeam1 250
+set ebeam2 250
+0
+
+launch -n exc_700
+set lpp1 0
+set lpp2 0
+set ebeam1 350
+set ebeam2 350
+0
+
+launch -n exc_1000
+set lpp1 0
+set lpp2 0
+set ebeam1 500
+set ebeam2 500
+0
+0

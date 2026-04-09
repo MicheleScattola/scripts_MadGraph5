@@ -1,0 +1,13 @@
+# 2.1
+
+generate p p > z
+output es_2_1
+launch -n 13TeV
+set ebeam1 6500.0
+set ebeam2 6500.0
+0
+
+launch -n 2TeV
+set ebeam1 1000
+set ebeam2 1000
+0

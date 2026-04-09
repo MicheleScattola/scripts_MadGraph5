@@ -1,0 +1,48 @@
+# 1.4
+
+# a
+
+# Tevatron
+generate p p > t t~
+output es_1_4/Tevatron
+launch -n Tevatron
+#set run_tag es_1_4_Tevatron
+# SET ANTIPROTON
+set lpp2 -1
+# SET TEVATRON BEAM ENERGY 
+set ebeam1 1000
+set ebeam2 1000
+0
+
+# LHC
+generate p p > t t~
+output es_1_4/LHC
+launch -n lhc_baseline
+set run_tag es_1_4_LHC
+# lhc is pp
+set lpp2 1
+# set beam energy
+set ebeam1 6500
+set ebeam2 6500
+0
+
+# b
+# scan m_top energy between 170 and 180 GeV
+launch
+#set run_tag scan_mt
+set mt scan:range(170,180,2)
+set wt auto
+0
+
+# c
+# new scan with different processes
+generate p p > t t~, t > w+ b, t~ > w- b~
+output es_1_4/LHC/manual_decay
+launch
+#set run_tag scan_mt_manualdecay
+# set beam energy
+set ebeam1 6500
+set ebeam2 6500
+# mass range scan
+set mt scan:range(170,180,2)
+0

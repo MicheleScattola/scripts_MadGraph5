@@ -1,0 +1,18 @@
+# 1.1
+generate z > all all
+output myExercises/es_1_1_Z
+launch 
+set run_tag 1_1_Z
+0
+
+generate w- > all all
+output myExercises/es_1_1_W
+launch
+set run_tag 1_1_W
+0
+
+generate t > all all
+output myExercises/es_1_1_t
+launch
+set run_tag es_1_1_t
+0

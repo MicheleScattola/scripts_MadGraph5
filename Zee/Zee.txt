@@ -1,4 +1,5 @@
 # Z ee with Delphes
+import model sm-full
 
 generate p p > z > e+ e-
 

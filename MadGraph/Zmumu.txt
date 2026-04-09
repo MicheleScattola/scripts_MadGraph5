@@ -1,0 +1,22 @@
+# Z mumu with Delphes
+
+generate p p > z > mu+ mu-
+
+output myExercises/Zmumu
+
+#launch -n default
+#shower=Pythia8
+#detector=Delphes
+#analysis=OFF
+
+#launch -n ATLAS
+#myExercises/Zmumu/Cards/delphes_card_ATLAS.dat
+
+#launch -n CMS
+#myExercises/Zmumu/Cards/delphes_card_CMS.dat
+
+launch -n HL-ATLAS
+shower=Pythia8
+detector=Delphes
+analysis=OFF
+/home/mike/Physics/labParticles/MG5_aMC_v3_6_7/myScripts/cards/myATLAS.dat
