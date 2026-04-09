@@ -109,8 +109,6 @@ if __name__ == "__main__":
     for event in range(n_entries):
         reader.ReadEntry(event)
 
-        ### Fake Muon rates
-
         #Muon Tag & Probe
         # loop over reco muons, if tight loop
         N_MUONS = branch_muon.GetEntries()

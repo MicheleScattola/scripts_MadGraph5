@@ -355,7 +355,6 @@ if __name__ == "__main__":
     del h_eff_loose_phi, h_eff_tight_phi
     del h_p_res_loose,h_p_res_tight
     del branch_muon, branch_particle, reader, tree
-    del loose_muons, tight_muons, Z_candidate
 
     f.Close()
     del f
