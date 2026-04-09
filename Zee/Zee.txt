@@ -1,0 +1,17 @@
+# Z ee with Delphes
+
+generate p p > z > e+ e-
+
+output /home/mike/Physics/labParticles/MG5_aMC_v3_6_7/Zee
+
+launch -n low_stat
+shower=Pythia8
+detector=Delphes
+analysis=OFF
+/home/mike/Physics/labParticles/scripts/MadGraph/cards/ATLAS_noPF_noLepIso.dat
+set nevents 10000
+done
+
+launch -n full_stat
+set nevents 50000
+done
