@@ -7,7 +7,7 @@ import functions as func
 DATA = '/home/mike/Physics/labParticles/MG5_aMC_v3_6_7/Zee'
 TEST_FILE = os.path.join(DATA, 'Events/low_stat/tag_1_delphes_events.root')
 INPUT_FILE = os.path.join(DATA, 'Events/full_stat/tag_1_delphes_events.root')
-OUTPUT_FOLDER = '../plots/eff_truthmatch'
+OUTPUT_FOLDER = '../plots/eff_tagandprobe'
 TREE_NAME = 'Delphes'
 
 # electrons selection

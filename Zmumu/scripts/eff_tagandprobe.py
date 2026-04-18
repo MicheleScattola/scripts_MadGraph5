@@ -8,7 +8,7 @@ DATA = '/home/mike/Physics/labParticles/MG5_aMC_v3_6_7/Zmumu'
 TEST_FILE = os.path.join(DATA, 'Events/low_stat/tag_1_delphes_events.root')
 INPUT_FILE = os.path.join(DATA,'Events/full_stat/tag_1_delphes_events.root')
 TREE_NAME = 'Delphes'
-OUTPUT_FOLDER = '../plots/eff_truthmatch'
+OUTPUT_FOLDER = '../plots/eff_tagandprobe'
 # loose muons definitions
 LOOSE_RECO_PT_MIN = 10.0
 LOOSE_ISO_MAX = 0.20
