@@ -1,0 +1,10 @@
+triggered : pass=191126     all=191126     -- eff=100.00 % cumulative eff=100.00 %
+Exactly 4 leptons: pass=189109     all=191126     -- eff=98.94 % cumulative eff=98.94 %
+only SFOC quadruplets: pass=185267     all=189109     -- eff=97.97 % cumulative eff=96.93 %
+lepton pairing and pt: pass=180842     all=185267     -- eff=97.61 % cumulative eff=94.62 %
+leading mass window: pass=176274     all=180842     -- eff=97.47 % cumulative eff=92.23 %
+subleading mass window: pass=163083     all=176274     -- eff=92.52 % cumulative eff=85.33 %
+4 leptons mass window: pass=163010     all=163083     -- eff=99.96 % cumulative eff=85.29 %
+lepton pair isolation: pass=163010     all=163010     -- eff=100.00 % cumulative eff=85.29 %
+
+TOTAL WEIGHT = 2.852244436553644
