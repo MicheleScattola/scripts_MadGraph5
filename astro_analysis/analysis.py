@@ -15,7 +15,7 @@ def angular_distance(ra1,dec1,ra2,dec2):
 
 
 if __name__ == "__main__":
-  FILE = '/home/mike/Physics/labParticles/modulo3/auger.txt'
+  FILE = '/home/mike/Physics/labParticles/data_files/auger.txt'
   SAG_RA = 266.417
   SAG_DEC = -29.008
 
