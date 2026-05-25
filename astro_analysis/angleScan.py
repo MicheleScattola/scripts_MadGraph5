@@ -42,9 +42,7 @@ def generate_trial_coords(nTrials, nEvents, probabilities, nside):
     if j!=0 and j%10000 == 0:
       print(f'[Gen - INFO] generated {j} trials')
     pixels = np.random.choice(nPositions, size=nEvents, p=probabilities)
-    theta, phi = hp.pix2ang(nside, pixels)
-    trial_ra_arrays[j] = np.degrees(phi)
-    trial_dec_arrays[j] = 90.0 - np.degrees(theta)
+    trial_ra_arrays[j], trial_dec_arrays[j] = hp.pix2ang(nside, pixels, lonlat=True)
     
     # Sort each trial's coordinates by distance
     trial_dist = CalculateDistance(trial_ra_arrays[j], trial_dec_arrays[j], source_ra_deg, source_dec_deg)
@@ -73,13 +71,12 @@ if __name__ == "__main__":
 
   EXP_MAP = '/home/mike/Physics/labParticles/data_files/exposure.fits'
   DATA = '/home/mike/Physics/labParticles/data_files/auger.txt'
-  ANGLE_MAX = np.int64(40)
 
   if not os.path.exists(EXP_MAP) or not os.path.exists(DATA):
       raise FileNotFoundError('Input file(s) not found!')
 
   parser = argparse.ArgumentParser(
-    prog='parallelScan',
+    prog='angleScan',
     description='Parallelized scan of give astronomical source.')
   parser.add_argument('-ra', '--source_ra', type=float, default=201.3,
     help='Astronomical source Right Ascension (degrees)')
@@ -87,11 +84,14 @@ if __name__ == "__main__":
     help='Astronomical source Declination (degrees)')
   parser.add_argument('-n', '--nTrials', type=int, default=10000,
     help='Number of Monte Carlo trials (int)')
+  parser.add_argument('-hat', '--topHat', type=int, default=40,
+    help='Max angle of top hat region')
 
   args = parser.parse_args()
   source_ra_deg = np.float64(args.source_ra)
   source_dec_deg = np.float64(args.source_dec)
   nTrials = np.int64(args.nTrials)
+  angleMax = np.int64(args.topHat)
 
   # analyze data from Auger
   auger_data = np.genfromtxt(DATA, names=True)
@@ -105,36 +105,57 @@ if __name__ == "__main__":
   auger_ra = auger_ra[auger_sort]
   auger_dec = auger_dec[auger_sort]
   auger_dist = auger_dist[auger_sort]
-  auger_counts = countsPerAngle(auger_dist,ANGLE_MAX)
+  auger_counts = countsPerAngle(auger_dist,angleMax)
 
-  exp_map = hp.read_map(EXP_MAP).astype(np.float64) 
-  probabilities = exp_map / exp_map.sum()
-  nside = hp.get_nside(exp_map)
-  nPositions = np.int64(len(exp_map))
+  exp_map = hp.read_map(EXP_MAP).astype(np.float64)
+  rotator = hp.Rotator(coord=['G', 'C'])
+  exp_map_eq = rotator.rotate_map_pixel(exp_map)
+  probabilities = exp_map_eq / exp_map_eq.sum()
+  nSide = hp.get_nside(exp_map_eq)
+  nPositions = np.int64(len(exp_map_eq))
   nEvents = np.int64(len(auger_ra))
+
+  plt.figure()
+  hp.mollview(exp_map_eq, title='Exposure map and analyzed sources')
+  hp.projscatter(source_ra_deg, source_dec_deg, lonlat=True, marker='*', color='red', s=50)
 
   # Generate trial coordinates ONCE before the loop
   print(f"[Gen - INFO] Generating {nTrials} trial coordinate sets (ordered by distance)")
   gen_start = time.time()
-  trial_ra, trial_dec, trial_dist = generate_trial_coords(nTrials, nEvents, probabilities, nside)
+  trial_ra, trial_dec, trial_dist = generate_trial_coords(nTrials, nEvents, probabilities, nSide)
   print(f"[Gen - INFO] Trial generation took {time.time() - gen_start:.2f} seconds\n")
 
-  trial_counter = np.empty((trial_dist.shape[0],ANGLE_MAX),dtype=np.int64)
-  print(f'[Trial - INFO] Analyzing trials from 0 to {ANGLE_MAX} degrees')
+  if nTrials > 0:
+    hp.projscatter(trial_ra[0], trial_dec[0], lonlat=True, marker='o', color='white', s=3, alpha=0.35)
+    plt.savefig('MapAndFirstTrial.png')
+
+  trial_counter = np.empty((trial_dist.shape[0],angleMax),dtype=np.int64)
+  print(f'[Trial - INFO] Analyzing trials from 0 to {angleMax} degrees')
   trial_start = time.time()
   for j in range(trial_dist.shape[0]):
-    trial_counter[j] = countsPerAngle(trial_dist[j], ANGLE_MAX)
+    trial_counter[j] = countsPerAngle(trial_dist[j], angleMax)
   
 
   expected = trial_counter.mean(axis=0)
-  pvalues = np.empty(ANGLE_MAX, dtype=np.float64)
+  pvalues = np.empty(angleMax, dtype=np.float64)
 
-  for i in range(ANGLE_MAX):
+  for i in range(angleMax):
     null_counts = trial_counter[:, i]
-    pvalues[i] = (np.count_nonzero(null_counts >= auger_counts[i]) + 1.0) / (nTrials + 1.0)
+    #pvalues[i] = (np.count_nonzero(null_counts >= auger_counts[i]) + 1.0) / (nTrials + 1.0)
+    pvalues[i] = stat.binomtest(
+                                k=int(auger_counts[i]),
+                                n=nEvents,
+                                p=expected[i]/nEvents,
+                                alternative='greater'
+                              ).pvalue
   print(f'[Trial - INFO] Trial analysis took {time.time() - trial_start:.2f} seconds\n')
 
-  angle = [i+1 for i in range(ANGLE_MAX)]
+  angle = [i+1 for i in range(angleMax)]
+  final = sorted(zip(angle,pvalues),key=lambda x: x[1])
+  min_angle, min_pvalue = final[0]
+  
+  print(f'Found minimum at {min_angle}° degrees with a p-value of {min_pvalue:.2E}')
+
   plt.figure()
   plt.plot(angle,pvalues,label='pvalues vs angle')
   plt.ylabel('p-value local')
@@ -145,5 +166,3 @@ if __name__ == "__main__":
   plt.tight_layout()
   #plt.show()
   plt.savefig('pvalueVSangle.png')
-
-
